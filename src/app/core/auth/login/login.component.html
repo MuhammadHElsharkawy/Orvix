@@ -1,0 +1,296 @@
+<section>
+    <!-- <div class="p-1 rounded-xl bg-slate-100 mb-5 flex">
+        <button
+            class="bg-white py-2 cursor-pointer rounded-[8px] w-full text-sm font-extrabold transition text-blue-800"
+            routerLink="/login">
+            Login
+        </button>
+        <button
+            class="py-2 cursor-pointer rounded-[8px] w-full text-sm font-extrabold text-slate-600 transition hover:text-slate-800"
+            routerLink="/register">
+            Register
+        </button>
+    </div> -->
+    <div class="head">
+        <h2 class="text-2xl font-extrabold text-slate-900">Log in to Route Posts</h2>
+        <p class="mt-1 text-sm text-slate-500">Log in and continue your social journey.</p>
+    </div>
+    <form [formGroup]="loginForm" (submit)="signin()" class="mt-5">
+        <div class="mb-3.5">
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="#90a1b9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-user-icon lucide-user">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <input formControlName="email" type="email" id="input-group-1"
+                    class="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                    placeholder="Email or Username">
+            </div>
+            <div class="text-rose-600 text-xs mt-1">
+                @let emailControl = loginForm.get('email');
+                @if(emailControl?.errors && emailControl?.touched) {
+                @if(emailControl?.getError('required')) {
+                <p class="">Email is required.</p>
+                }
+                @if (emailControl?.getError('email')) {
+                <p>Please enter a valid email address.</p>
+                }
+                }
+            </div>
+        </div>
+        <div class="mb-3.5">
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="#90a1b9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-key-round-icon lucide-key-round">
+                        <path
+                            d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+                    </svg>
+                </div>
+                <input formControlName="password" type="password" id="input-group-1"
+                    class="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                    placeholder="Password">
+            </div>
+            <div class="text-rose-600 text-xs mt-1">
+                @let passwordControl = loginForm.get('password');
+                @if(passwordControl?.errors && passwordControl?.touched) {
+                @if(passwordControl?.getError('required')) {
+                <p class="">Email is required.</p>
+                }
+                }
+            </div>
+        </div>
+        <div class="text-center mb-3.5">
+            <button [disabled]="loginForm.invalid || isLoading"
+                class=" text-white py-3 px-4 rounded-xl w-full font-bold cursor-pointer hover:scale-105 transition bg-blue-900 disabled:bg-gray-500 disabled:scale-100 disabled:cursor-no-drop">
+                @if(!isLoading) {
+                Log In <i class="fa-solid fa-arrow-right"></i>
+                }
+                @if (isLoading) {
+                Please wait...
+                }
+            </button>
+        </div>
+        <div class="text-center">
+            <button class="text-sm font-semibold text-[#00298d] cursor-pointer hover:underline transition">
+                Forget Password
+            </button>
+        </div>
+        @if(wrongData) {
+        <div class="text-sm rounded-xl border border-rose-200 bg-rose-50 py-2.5 px-4 text-rose-700 font-semibold">
+            incorrect email or password
+        </div>
+        }
+    </form>
+</section>
+
+
+
+<!-- <section class="bg-[#f3f4f6] min-h-screen ">
+    <div class="bgimage min-h-screen">
+        <div class="p-10">
+            <div class="flex items-center gap-3 text-white font-bold">
+                <span class="bg-white/40 size-12 flex justify-center items-center rounded-xl text-lg">S</span>
+                <span class="text-2xl">SocialHub</span>
+            </div>
+            <h2 class="text-5xl font-bold max-w-96 text-white mb-6">
+                Welcome Backto
+                <span class="bg-linear-to-r from-cyan-300 to-cyan-100 bg-clip-text text-transparent">SocialHub
+                    App</span>
+            </h2>
+            <p class="text-white mb-6">
+                Signin to connect people all over the world
+            </p>
+            <div class="grid gap-4 lg:grid-cols-2 mb-5">
+                <div
+                    class="py-2 px-4 rounded-xl bg-white/20 border border-white/30 flex items-center gap-2 backdrop-blur-sm hover:scale-105 transition">
+                    <div class="bg-teal-400/20 size-10 rounded-xl text-green-300 flex justify-center items-center">
+                        <i class="fa-solid fa-message"></i>
+                    </div>
+                    <div class="text-white">
+                        <h4>Real-time Chat</h4>
+                        <span>Instant messaging</span>
+                    </div>
+                </div>
+                <div
+                    class="py-2 px-4 rounded-xl bg-white/20 border border-white/30 flex items-center gap-2 backdrop-blur-sm hover:scale-105 transition">
+                    <div class="bg-blue-400/20 size-10 rounded-xl text-blue-100 flex justify-center items-center">
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+                    <div class="text-white">
+                        <h4>Real-time Chat</h4>
+                        <span>Instant messaging</span>
+                    </div>
+                </div>
+                <div
+                    class="py-2 px-4 rounded-xl bg-white/20 border border-white/30 flex items-center gap-2 backdrop-blur-sm hover:scale-105 transition">
+                    <div class="bg-pink-400/20 size-10 rounded-xl text-pink-100 flex justify-center items-center">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div class="text-white">
+                        <h4>Real-time Chat</h4>
+                        <span>Instant messaging</span>
+                    </div>
+                </div>
+                <div
+                    class="py-2 px-4 rounded-xl bg-white/20 border border-white/30 flex items-center gap-2 backdrop-blur-sm hover:scale-105 transition">
+                    <div class="bg-teal-400/20 size-10 rounded-xl text-green-300 flex justify-center items-center">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="text-white">
+                        <h4>Real-time Chat</h4>
+                        <span>Instant messaging</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-5 text-white mb-5">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-users"></i>
+                        <span class="text-2xl font-bold">2M+</span>
+                    </div>
+                    <p>Active Users</p>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="text-2xl font-bold">10M+</span>
+                    </div>
+                    <p>Posts Shared</p>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-message"></i>
+                        <span class="text-2xl font-bold">50M+</span>
+                    </div>
+                    <p>Messages Sent</p>
+                </div>
+            </div>
+            <div
+                class="bg-white/20 hover:bg-white/25 transition backdrop-blur-sm border border-white/30 rounded-xl p-4">
+                <div class="text-yellow-300 mb-4">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="italic text-lg text-white mb-4">
+                    "SocialHub has completely changed how I connect with friends and discover new communities. The
+                    experience is seamless!"
+                </p>
+                <div class="flex items-center gap-4">
+                    <div class="rounded-full size-12 overflow-hidden">
+                        <img src="images/imgi_1_alex-avatar-BLDJqiDr.png" alt="">
+                    </div>
+                    <div>
+                        <p class="text-white">Alex Johnson</p>
+                        <p class="text-sm text-gray-300">Product Designer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-12 min-h-screen flex justify-center items-center">
+        <form [formGroup]="loginForm" (submit)="signin()"
+            class="w-full max-w-lg mx-auto p-8 rounded-2xl bg-white shadow-sm">
+            <div class="head mb-5 text-center">
+                <h2 class="mb-2 text-3xl font-bold">Login</h2>
+                <p class="text-gray-700">
+                    Don't have an account? a <a class="text-sky-500" routerLink="/register">Sign up</a>
+                </p>
+            </div>
+            <div class="mb-5 flex justify-between gap-3">
+                <button
+                    class="bg-transparent border-[0.8px] border-gray-300 py-2 px-4 rounded-xl w-full cursor-pointer hover:scale-105 transition">
+                    <i class="fa-brands fa-google text-red-600"></i> Googe
+                </button>
+                <button
+                    class="bg-blue-600 text-white py-2 px-4 rounded-xl w-full cursor-pointer hover:scale-105 transition">
+                    <i class="fa-brands fa-facebook-f"></i> Facebook
+                </button>
+            </div>
+            <div class="text-gray-400 text-sm mb-5 with text-center">
+                or continue with email
+            </div>
+            <div class="mb-4">
+                <label for="input-group-1" class="block mb-2.5 text-sm font-medium text-heading">Email Address</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                        </svg>
+                    </div>
+                    <input formControlName="email" type="email" id="input-group-1"
+                        class="block w-full ps-9 pe-3 py-3 bg-[#F3F4F6] border border-gray-300 text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-gray-500 placeholder:text-[16px]"
+                        placeholder="name@example.com">
+                </div>
+                <div class="text-rose-600 text-xs mt-1">
+                    @let emailControl = loginForm.get('email');
+                    @if(emailControl?.errors && emailControl?.touched) {
+                    @if(emailControl?.getError('required')) {
+                    <p class="">Email is required.</p>
+                    }
+                    @if (emailControl?.getError('email')) {
+                    <p>Please enter a valid email address.</p>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="input-group-1" class="block mb-2.5 text-sm font-medium text-heading">Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" />
+                        </svg>
+                    </div>
+                    <input formControlName="password" type="password" id="input-group-1"
+                        class="block w-full ps-9 pe-3 py-3 bg-[#F3F4F6] border border-gray-300 text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-gray-500 placeholder:text-[16px]"
+                        placeholder="Type your password">
+                </div>
+                <div class="text-rose-600 text-xs mt-1">
+                    @let passwordControl = loginForm.get('password');
+                    @if(passwordControl?.errors && passwordControl?.touched) {
+                    @if(passwordControl?.getError('required')) {
+                    <p class="">Email is required.</p>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="text-center mb-4">
+                <button [disabled]="loginForm.invalid || isLoading"
+                    class="bg-linear-to-r from-blue-600 to-blue-400 text-white py-3 px-4 rounded-xl w-full font-bold cursor-pointer hover:scale-105 transition disabled:from-gray-300 disabled:to-gray-200 disabled:scale-100 disabled:cursor-no-drop">
+                    @if(!isLoading) {
+                    Log In <i class="fa-solid fa-arrow-right"></i>
+                    }
+                    @if (isLoading) {
+                    Loging You In <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                    }
+                </button>
+            </div>
+            <div class="text-center mb-4">
+                <button class="text-sm font-semibold text-[#00298d] cursor-pointer hover:underline transition">
+                    Forget Password
+                </button>
+            </div>
+            @if(wrongData) {
+            <div class="text-sm rounded-xl border border-rose-200 bg-rose-50 py-2.5 px-4 text-rose-700 font-semibold">
+                incorrect email or password
+            </div>
+            }
+        </form>
+    </div>
+</section> -->
+
+<!-- grid lg:grid-cols-2 -->

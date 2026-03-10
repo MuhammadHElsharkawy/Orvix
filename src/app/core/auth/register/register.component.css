@@ -1,0 +1,27 @@
+.bgimage {
+    background-image: linear-gradient(rgba(20, 71, 230, 0.8), rgba(20, 71, 230, 0.8)), url('/images/login-bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.with {
+    position: relative;
+    &::after {
+        content: '';
+        position: absolute;
+        width: 33%;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, oklab(0.707 -0.00331825 -0.0217483 / 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+        left: 0;
+        top: 10px;
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        width: 33%;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, oklab(0.707 -0.00331825 -0.0217483 / 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+        right: 0;
+        top: 10px;
+    }
+}
