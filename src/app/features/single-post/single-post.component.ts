@@ -39,12 +39,12 @@ export class SinglePostComponent {
       this.isCommentValid = false
     }
   }
+  isLoadingComment: boolean = false;
   createComment(postId: any, e: SubmitEvent) {
     e.preventDefault()
 
+    this.isLoadingComment = true;
     if (this.commentText) {
-      // this.isCommentValid = true
-      if (FormData) { }
       const form: FormData = new FormData()
       form.append('content', this.commentText.value)
       if (this.commentPhoto) {
@@ -55,9 +55,11 @@ export class SinglePostComponent {
           console.log(res);
           this.commentsService.notifycommentAdded();
           this.commentText.reset()
+          this.isLoadingComment = false;
         },
         error: (err) => {
           console.log(err);
+          this.isLoadingComment = false;
         }
       })
     }

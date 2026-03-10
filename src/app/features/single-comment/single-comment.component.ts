@@ -3,7 +3,7 @@ import { IComment } from '../../core/interfaces/i-comment.interface';
 import { DatePipe } from '@angular/common';
 import { CommentsService } from '../../core/services/comments/comments.service';
 import Swal from 'sweetalert2';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-single-comment',
@@ -71,7 +71,7 @@ export class SingleCommentComponent {
 
 
 
-  updateCommentControl: FormControl = new FormControl(this.comment?.content)
+  updateCommentControl: FormControl = new FormControl(this.comment?.content, [Validators.required])
   iseditCommentFormOpen: boolean = false;
   openEditCommentForm() {
     this.iseditCommentFormOpen = true;
@@ -83,22 +83,25 @@ export class SingleCommentComponent {
   editCommentClick() {
     this.openEditCommentForm();
   }
+  isLoading: boolean = false;
   saveCommentClick(commentId: any) {
-    const newComment = this.updateCommentControl.value;
+    this.isLoading = true;
+    const newComment: FormControl = this.updateCommentControl;
     if(newComment) {
       const form: FormData = new FormData()
-      form.append('content', newComment)
+      form.append('content', newComment.value)
       this.commentsService.updateComment(this.postId, commentId, form).subscribe({
         next: (res) => {
-          console.log(res);
           this.commentsService.notifycommentUpdated();
           this.closeEditCommentForm();
+          this.isLoading = false;
         },
         error: (err) => {
           console.log(err);
-          
+          this.isLoading = false;
         }
       })
     }
+    this.closeEditCommentForm();
   }
 }

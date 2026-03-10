@@ -20,13 +20,12 @@
             'hidden': !iseditCommentFormOpen,
             'flex': iseditCommentFormOpen
           }">
-            <input type="text" class="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm"
-               [formControl]="updateCommentControl">
-            <button (click)="saveCommentClick(comment._id)"
-              class="rounded-full bg-[#1877f2] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-60">Save</button>
-            <button
-              class="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100">Cancel</button>
-          
+        <input type="text" class="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm"
+          [formControl]="updateCommentControl">
+        <button (click)="saveCommentClick(comment._id)" [disabled]="isLoading || !updateCommentControl.valid"
+          class="rounded-full bg-[#1877f2] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-60 disabled:cursor-no-drop">Save</button>
+        <button (click)="closeEditCommentForm()"
+          class="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100">Cancel</button>
       </div>
     </div>
     @if (comment.commentCreator._id == myId) {

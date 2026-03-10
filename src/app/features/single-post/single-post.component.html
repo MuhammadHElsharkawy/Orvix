@@ -234,7 +234,7 @@
               </span>
               <input (change)="getCommentPhoto($event)" type="file" id="commentPhoto" class="hidden" />
             </label>
-            <button [disabled]="!commentText.valid"
+            <button [disabled]="!commentText.valid || isLoadingComment"
               class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#1877f2] text-white shadow-sm transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:bg-[#9ec5ff] disabled:opacity-100">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
