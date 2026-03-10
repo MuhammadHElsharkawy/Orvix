@@ -82,6 +82,7 @@ export class SingleCommentComponent {
   }
   editCommentClick() {
     this.openEditCommentForm();
+    this.isListOpen = false;
   }
   isLoading: boolean = false;
   saveCommentClick(commentId: any) {

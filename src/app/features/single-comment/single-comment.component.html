@@ -18,12 +18,13 @@
           }">{{ comment.content }}</p>
       <div class="mt-2 items-center gap-2" [class]="{
             'hidden': !iseditCommentFormOpen,
-            'flex': iseditCommentFormOpen
+            'md:flex-row': iseditCommentFormOpen,
+            'flex-col': iseditCommentFormOpen
           }">
-        <input type="text" class="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm"
+        <input type="text" class="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm mb-2"
           [formControl]="updateCommentControl">
         <button (click)="saveCommentClick(comment._id)" [disabled]="isLoading || !updateCommentControl.valid"
-          class="rounded-full bg-[#1877f2] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-60 disabled:cursor-no-drop">Save</button>
+          class="rounded-full bg-[#1877f2] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-60 disabled:cursor-no-drop me-2">Save</button>
         <button (click)="closeEditCommentForm()"
           class="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100">Cancel</button>
       </div>
