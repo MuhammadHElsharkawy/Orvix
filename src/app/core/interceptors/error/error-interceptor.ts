@@ -7,8 +7,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toastr = inject(ToastrService);
 
   return next(req).pipe(catchError(err => {
-    console.log('interceptor error', err);
-    toastr.error(err.error.message, 'error');
+    toastr.error(err?.error?.message || 'Something went wrong, please try again.', 'error');
     return throwError(() => err)
   }))
 };

@@ -1,7 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
+import { AuthValidationService } from '../../services/auth/auth-validation.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -9,62 +16,43 @@ import { AuthService } from '../../services/auth/auth.service';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent implements OnInit {
-  private readonly authService = inject(AuthService)
-  private readonly router = inject(Router)
-  
-  currentPage: string = ''
-  ngOnInit(): void {
-    this.currentPage = 'register'
-  }
+export class RegisterComponent {
+  private readonly authService = inject(AuthService);
+  private readonly authValidationService = inject(AuthValidationService);
+  private readonly router = inject(Router);
 
-  passwordRegex:RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/
-  usernameRegex:RegExp = /^[a-z0-9_]{3,30}$/
+  isLoading: boolean = false;
 
-  dateValidation(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const selectedDate:Date = new Date(control.value)
-      const today:Date = new Date()
-      today.setHours(0,0,0,0)
-      return (selectedDate > today)? {futureDate: true} : null
-    }
-  }
+  registerForm: FormGroup = new FormGroup(
+    {
+      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      username: new FormControl(null, [
+        Validators.pattern(this.authValidationService.usernameRegex),
+      ]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      dateOfBirth: new FormControl(null, [Validators.required, this.authValidationService.dateValidation()]),
+      gender: new FormControl(null, [Validators.required]),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.authValidationService.passwordRegex),
+      ]),
+      rePassword: new FormControl(null, [Validators.required]),
+    },
+    {
+      validators: this.authValidationService.rePasswordValidation,
+    },
+  );
 
-  rePasswordValidation: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const password:string = control.get('password')?.value
-    const rePassword:string = control.get('rePassword')?.value
-    return (password == rePassword)? null : {passwordMatch: true}
-  }
-
-  registerForm: FormGroup = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    username: new FormControl(null, [Validators.required ,Validators.pattern(this.usernameRegex)]),
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    dateOfBirth: new FormControl(null, [Validators.required, this.dateValidation()]),
-    gender: new FormControl('', [Validators.required]),
-    password: new FormControl(null, [Validators.required, Validators.pattern(this.passwordRegex)]),
-    rePassword: new FormControl(null, [Validators.required]),
-  }, {
-    validators: this.rePasswordValidation
-  })
-
-  errorMessage: string = ''
-  isLoading: boolean = false
   signup() {
-    if(this.registerForm.valid) {
-      this.isLoading = true
-      this.authService.signUp(this.registerForm.value).subscribe({
-        next:(res) => {
-          console.log(res);
-          this.isLoading = false
-          this.router.navigate(['login'])
-        },
-        error:(err) => {
-          this.errorMessage = err.error.message
-          console.log(this.errorMessage);
-          this.isLoading = false
-        }
-      })
+    if (this.registerForm.valid) {
+      this.isLoading = true;
+      this.authService.signUp(this.registerForm.value)
+        .pipe(finalize(() => { this.isLoading = false }))
+        .subscribe({
+          next: () => {
+            this.router.navigate(['login']);
+          }
+        });
     }
   }
 }

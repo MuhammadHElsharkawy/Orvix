@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SettingsService } from '../../core/services/settings/settings.service';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthValidationService } from '../../core/services/auth/auth-validation.service';
 
 @Component({
   selector: 'app-change-password',
@@ -10,19 +11,14 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 })
 export class ChangePasswordComponent {
   private readonly settings = inject(SettingsService)
+  private readonly authValidationService = inject(AuthValidationService)
 
-  passwordRegex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/
-  rePasswordValidation: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const password: string = control.get('new')?.value
-    const rePassword: string = control.get('confirm')?.value
-    return (password == rePassword) ? null : { passwordMatch: true }
-  }
   changePasswordForm: FormGroup = new FormGroup({
     old: new FormControl(null, [Validators.required]),
-    new: new FormControl(null, [Validators.required, Validators.pattern(this.passwordRegex)]),
+    new: new FormControl(null, [Validators.required, Validators.pattern(this.authValidationService.passwordRegex)]),
     confirm: new FormControl(null, [Validators.required])
   }, {
-    validators: this.rePasswordValidation
+    validators: this.authValidationService.rePasswordValidation
   })
 
   isLoading: boolean = false;
